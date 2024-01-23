@@ -4,12 +4,23 @@ interface Props {
     initialValue: number,
 }
 
+interface CounterState {
+    value: number,
+    clicks: number,
+}
+
 export const Counter = ({initialValue}: Props) => {
 
-    const [counter, setCounter] = useState<number>(initialValue);
+    const [counter, setCounter] = useState<CounterState>({
+        value: initialValue,
+        clicks: 0
+    });
 
     const handleClick = (n: number): void => {
-        setCounter(c => c+n);
+        setCounter( ({value, clicks}) => ({
+            value: value+n,
+            clicks: clicks+1,
+        }));
     };
 
     return (
@@ -18,7 +29,10 @@ export const Counter = ({initialValue}: Props) => {
                 Aumentar Contador
             </button>
             <p>
-                Contador: {counter}
+                Contador: {counter.value}
+            </p>
+            <p>
+                Clicks: {counter.clicks}
             </p>
             <button onClick={() => handleClick(-1)}>
                 Disminuir Contador
