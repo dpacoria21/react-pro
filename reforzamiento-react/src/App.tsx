@@ -1,5 +1,6 @@
 import './App.css';
 import { CounterEffect } from './bases/CounterEffect';
+import { CounterHook } from './bases/CounterHook';
 
 function App() {
 
@@ -9,6 +10,7 @@ function App() {
             <hr />
 
             <CounterEffect initialValue={5}/>
+            <CounterHook />
 
         </>
     );
