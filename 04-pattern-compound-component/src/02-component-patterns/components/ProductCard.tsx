@@ -1,32 +1,81 @@
-import { useState } from 'react';
 import styles from '../styles/styles.module.css';
-// import noImage from '../assets/no-image.jpg';
+import { useProduct } from '../hooks/useProduct';
+import noImage from '../assets/no-image.jpg';
+import { ReactElement } from 'react';
 
-export const ProductCard = () => {
+interface Product {
+    id: string,
+    title: string,
+    img?: string,
+}
 
-    const [counter, setCounter] = useState<number>(0);
+interface Props {
+    product: Product,
+    children?: ReactElement | ReactElement[]
+}
 
-    const increaseBy = (value: number): void => {
-        setCounter(c=>Math.max(c + value, 0));
-    };
 
+export const ProductImage = ({img = ''}) => {
     return (
-        <div className={styles.productCard}>
-            <img className={styles.productImg} src={'./coffee-mug.png'} alt="Coffee Mug" />
-            {/* <img className={styles.productImg} src={noImage} alt="Coffee Mug" /> */}
-            <span className={styles.productDescription}>Coffee Mug</span>
+        <img className={styles.productImg} src={img ? img : noImage} alt="Product image" />
+    );
+};
 
-            <div className={styles.buttonsContainer}>
-                <button onClick={() => increaseBy(-1)} className={styles.buttonMinus}>
-                    -
-                </button>
-                <div className={styles.countLabel}>
-                    {counter}
-                </div>
-                <button onClick={() => increaseBy(1)} className={styles.buttonAdd}>
-                    +
-                </button>
+export const ProductTitle = ({title}: {title: string}) => {
+    return (
+        <span className={styles.productDescription}> {title} </span>
+    );
+};
+
+interface ButtonAction {
+    value: number,
+    label: string,
+}
+interface ProductButtonsProps {
+    counter: number,
+    add: ButtonAction,
+    minus: ButtonAction,
+    increaseBy: (a: number) => void
+}
+
+export const ProductButtons = ({counter, add, minus, increaseBy}: ProductButtonsProps) => {
+    return (
+        <div className={styles.buttonsContainer}>
+            <button onClick={() => increaseBy(minus.value)} className={styles.buttonMinus}>
+                {minus.label}
+            </button>
+            <div className={styles.countLabel}>
+                {counter}
             </div>
+            <button onClick={() => increaseBy(add.value)} className={styles.buttonAdd}>
+                {add.label}
+            </button>
         </div>
     );
 };
+
+export const ProductCard = ({product, children}: Props) => {
+
+    const {counter, increaseBy} = useProduct();
+
+    return (
+        <div className={styles.productCard}>
+
+            {children}
+            {/* <ProductImage img={product.img}/>
+
+            <ProductTitle title={product.title}/>
+
+            <ProductButtons 
+                add={ {label: '+', value: 1} }
+                minus={ {label: '-', value: -1} }
+                counter={counter}
+                increaseBy={increaseBy}            
+            /> */}
+        </div>
+    );
+};
+
+ProductCard.Title = ProductTitle;
+ProductCard.Image = ProductImage;
+ProductCard.Buttons = ProductButtons;
