@@ -3,3 +3,6 @@ export const LazyloadPage1 = () => {
         <div>LazyloadPage1</div>
     );
 };
+
+
+export default LazyloadPage1;
