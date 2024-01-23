@@ -1,8 +1,6 @@
 import { BrowserRouter, NavLink, Navigate, Route, Routes } from 'react-router-dom';
 import logo from '../assets/react.svg';
-import { LazyloadPage1, LazyloadPage2, LazyloadPage3 } from '../01-lazyload/pages';
-
-
+import { routes } from './routes';
 
 export const Navigation = () => {
     return (
@@ -12,23 +10,23 @@ export const Navigation = () => {
                 <nav>
                     <img src={logo} alt='react-logo'/>
                     <ul>
-                        <li>
-                            <NavLink to={'lazy1'} className={({isActive}) => isActive?'nav-active':''}>Lazy 1</NavLink> 
-                        </li>
-                        <li>
-                            <NavLink to={'/lazy2'} className={({isActive}) => isActive?'nav-active':''} >Lazy 2</NavLink> 
-                        </li>
-                        <li>
-                            <NavLink to={'/lazy3'} className={({isActive}) => isActive?'nav-active':''} >Lazy 3</NavLink> 
-                        </li>
+                        {
+                            routes.map((route) => (
+                                <li key={route.name}>
+                                    <NavLink to={route.to} className={({isActive}) => isActive?'nav-active':''}>{route.name}</NavLink> 
+                                </li>
+                            ))
+                        }
                     </ul>
                 </nav>
 
                 <Routes>
-                    <Route path='lazy1' element={<LazyloadPage1 />}/>
-                    <Route path='lazy2' element={<LazyloadPage2 />}/>
-                    <Route path='lazy3' element={<LazyloadPage3 />}/>
-                    <Route path='/*' element={<Navigate to={'/lazy1'} />}/>
+                    {
+                        routes.map((route) => (
+                            <Route key={route.name} path={route.path} element={<route.Component />}/>
+                        ))
+                    }
+                    <Route path='/*' element={<Navigate to={routes[0].to} replace/>}/>
                 </Routes>
 
             </div>
