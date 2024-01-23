@@ -19,10 +19,18 @@ export const ShoppingPage = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
             }}>
+                {/* Compound Component Patter */}
                 <ProductCard product={product}>
                     <ProductCard.Image />
                     <ProductCard.Title title='Cafe'/>
-                    {/* <ProductCard.Buttons/> */}
+                    <ProductCard.Buttons add={{label: '+', value: 1}} minus={{label: '-', value: -1}}/>
+                </ProductCard>
+                
+                {/* HOCs */}
+                <ProductCard product={product}>
+                    <ProductImage />
+                    <ProductTitle />
+                    <ProductButtons add={{label: '+', value: 1}} minus={{label: '-', value: -1}} />
                 </ProductCard>
             </div>
         </div>

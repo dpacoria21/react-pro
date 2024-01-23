@@ -1,7 +1,7 @@
 import styles from '../styles/styles.module.css';
 import { useProduct } from '../hooks/useProduct';
 import noImage from '../assets/no-image.jpg';
-import { ReactElement } from 'react';
+import { ReactElement, createContext, useContext } from 'react';
 
 interface Product {
     id: string,
@@ -15,15 +15,40 @@ interface Props {
 }
 
 
+interface ProductContextProps {
+    counter: number,
+    increaseBy: (a: number) => void
+    product: Product
+}
+
+const ProductContext = createContext({} as ProductContextProps);
+const {Provider} = ProductContext;
+
+
 export const ProductImage = ({img = ''}) => {
+
+    const {product} = useContext(ProductContext);
+
+    let imgToShow: string = '';
+    if(img) {
+        imgToShow = img;
+    }else if(product.img) {
+        imgToShow = product.img;
+    }else {
+        imgToShow = noImage;
+    }
+
     return (
-        <img className={styles.productImg} src={img ? img : noImage} alt="Product image" />
+        <img className={styles.productImg} src={imgToShow} alt="Product image" />
     );
 };
 
-export const ProductTitle = ({title}: {title: string}) => {
+export const ProductTitle = ({title}: {title?: string}) => {
+
+    const {product} = useContext(ProductContext);
+
     return (
-        <span className={styles.productDescription}> {title} </span>
+        <span className={styles.productDescription}> {title ? title : product.title} </span>
     );
 };
 
@@ -31,14 +56,16 @@ interface ButtonAction {
     value: number,
     label: string,
 }
+
 interface ProductButtonsProps {
-    counter: number,
     add: ButtonAction,
     minus: ButtonAction,
-    increaseBy: (a: number) => void
 }
 
-export const ProductButtons = ({counter, add, minus, increaseBy}: ProductButtonsProps) => {
+export const ProductButtons = ({add, minus}: ProductButtonsProps) => {
+
+    const {counter, increaseBy} = useContext(ProductContext);
+
     return (
         <div className={styles.buttonsContainer}>
             <button onClick={() => increaseBy(minus.value)} className={styles.buttonMinus}>
@@ -59,20 +86,27 @@ export const ProductCard = ({product, children}: Props) => {
     const {counter, increaseBy} = useProduct();
 
     return (
-        <div className={styles.productCard}>
+        <Provider value={{
+            counter,
+            increaseBy,
+            product
+        }}>
 
-            {children}
-            {/* <ProductImage img={product.img}/>
+            <div className={styles.productCard}>
 
-            <ProductTitle title={product.title}/>
+                {children}
+                {/* <ProductImage img={product.img}/>
 
-            <ProductButtons 
-                add={ {label: '+', value: 1} }
-                minus={ {label: '-', value: -1} }
-                counter={counter}
-                increaseBy={increaseBy}            
-            /> */}
-        </div>
+                <ProductTitle title={product.title}/>
+
+                <ProductButtons 
+                    add={ {label: '+', value: 1} }
+                    minus={ {label: '-', value: -1} }
+                    counter={counter}
+                    increaseBy={increaseBy}            
+                /> */}
+            </div>
+        </Provider>
     );
 };
 
