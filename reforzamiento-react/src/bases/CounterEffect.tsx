@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import {gsap} from 'gsap';
 
 interface Props {
     initialValue: number,
@@ -21,18 +22,18 @@ export const CounterEffect = ({initialValue}: Props) => {
         if(counter < 10) return;
         console.log('%cSe llego al valor maximo', 'color:red; background-color: black;');
 
+        gsap.to('h2', {y: -10, duration: 0.2, ease: 'ease.out'}).then(() => {
+            gsap.to('h2', {y: 0, duration: 1, ease: 'bounce'});
+        });
+
     }, [counter]);
 
     return (
         <>
+            <h1>CounterEffect: </h1>
+            <h2>{counter}</h2>
             <button onClick={() => handleClick(1)}>
-                Aumentar Contador
-            </button>
-            <p>
-                Contador: {counter}
-            </p>
-            <button onClick={() => handleClick(-1)}>
-                Disminuir Contador
+                +1
             </button>
         </>
     );
