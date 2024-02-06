@@ -11,7 +11,6 @@ export interface Props {
     add: ButtonAction,
     minus: ButtonAction,
     className?: string,
-    activeBtnClass?: string,
 }
 
 export const ProductButtons = ({add, minus, className}: Props) => {

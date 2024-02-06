@@ -27,7 +27,7 @@ export const ShoppingPage = () => {
                 >
                     <ProductCard.Image className='custom-image'/>
                     <ProductCard.Title className='text-bold' title='Cafe'/>
-                    <ProductCard.Buttons activeBtnClass='asdasd' className='custom-buttons' add={{label: '+', value: 1}} minus={{label: '-', value: -1}}/>
+                    <ProductCard.Buttons className='custom-buttons' add={{label: '+', value: 1}} minus={{label: '-', value: -1}}/>
                 </ProductCard>
                 
                 {/* HOCs */}
@@ -41,7 +41,6 @@ export const ShoppingPage = () => {
                         add={{label: '+', value: 1}} 
                         minus={{label: '-', value: -1}} 
                         className='custom-buttons'
-                        activeBtnClass='asddasd'
                     />
                 </ProductCard>
             </div>
