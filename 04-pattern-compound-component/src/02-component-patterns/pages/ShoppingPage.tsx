@@ -21,20 +21,28 @@ export const ShoppingPage = () => {
                 justifyContent: 'center',
             }}>
                 {/* Compound Component Patter */}
-                <ProductCard product={product}>
-                    <ProductCard.Image />
-                    <ProductCard.Title title='Cafe'/>
-                    <ProductCard.Buttons add={{label: '+', value: 1}} minus={{label: '-', value: -1}}/>
+                <ProductCard 
+                    product={product}
+                    className='bg-dark text-white'
+                >
+                    <ProductCard.Image className='custom-image'/>
+                    <ProductCard.Title className='text-bold' title='Cafe'/>
+                    <ProductCard.Buttons activeBtnClass='asdasd' className='custom-buttons' add={{label: '+', value: 1}} minus={{label: '-', value: -1}}/>
                 </ProductCard>
                 
                 {/* HOCs */}
                 <ProductCard 
                     product={product}
-                    className='bg-dark'
+                    className='bg-dark text-white'
                 >
                     <ProductImage className='custom-image'/>
-                    <ProductTitle className='text-white text-bold'/>
-                    <ProductButtons add={{label: '+', value: 1}} minus={{label: '-', value: -1}} />
+                    <ProductTitle className='text-bold'/>
+                    <ProductButtons 
+                        add={{label: '+', value: 1}} 
+                        minus={{label: '-', value: -1}} 
+                        className='custom-buttons'
+                        activeBtnClass='asddasd'
+                    />
                 </ProductCard>
             </div>
         </div>
