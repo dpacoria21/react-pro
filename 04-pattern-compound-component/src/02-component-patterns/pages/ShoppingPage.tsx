@@ -1,60 +1,12 @@
-import { useState } from 'react';
 import ProductCard, { ProductButtons, ProductImage, ProductTitle } from '../components';
-import { Product } from '../interfaces/interfaces';
 
 import '../styles/customStyles.css';
-
-const product1 = {
-    id: '1',
-    title: 'Coffee Mug - Card',
-    img: './coffee-mug.png'
-};
-
-const product2 = {
-    id: '2',
-    title: 'Coffee Mug - Meme',
-    img: './coffee-mug2.png'
-};
-
-const products: Product[] = [product1, product2];
-
-interface ProductInCart extends Product {
-    count: number
-}
+import { products } from '../data/products';
+import { useShoppingCart } from '../hooks/useShoppingCart';
 
 export const ShoppingPage = () => {
 
-    const [shoppingCart, setShoppingCart] = useState<{ [key: string]: ProductInCart }>({});
-
-    const onProductCountChange = ({count, product}: {count: number, product:Product}) => {
-        setShoppingCart( oldShoppingCart => {
-
-            if(count===0) {
-                const {[product.id]:toDelete, ...rest} = oldShoppingCart;
-                console.log({toDelete});
-    
-                return rest;
-            }
-
-            return {
-                ...oldShoppingCart,
-                [product.id]: {...product, count}
-            };
-
-        });
-
-        // Forma 2:
-        // delete shoppingCart[product.id];
-        // setShoppingCart({
-        //     ...shoppingCart
-        // });
-
-        // Forma 1:
-        // setShoppingCart(oldShoppingCart => {
-        //     delete oldShoppingCart[product.id];
-        //     return {...oldShoppingCart};
-        // });
-    };
+    const {shoppingCart, onProductCountChange} = useShoppingCart();
 
     return (
         <div>
@@ -111,28 +63,6 @@ export const ShoppingPage = () => {
                     ))
                 }
 
-                {/* <ProductCard 
-                    product={product2}
-                    className='bg-dark text-white'
-                    style={{width: '100px'}}
-                >
-                    <ProductImage style={{ boxShadow: '10px 10px 10px rgba(0,0,0, 0.2)' }} className='custom-image'/>
-                    <ProductButtons
-                        add={{label: '+', value: 1}} 
-                        minus={{label: '-', value: -1}} 
-                        className='custom-buttons'
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'center'
-                        }}
-                    />
-                </ProductCard> */}
-
-            </div>
-            <div>
-                <code>
-                    {JSON.stringify(shoppingCart, null, 5)}
-                </code>
             </div>
         </div>
         
