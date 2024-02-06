@@ -9,6 +9,7 @@ export interface Product {
 export interface Props {
     product: Product,
     children?: ReactElement | ReactElement[]
+    className?: string
 }
 
 interface ButtonAction {

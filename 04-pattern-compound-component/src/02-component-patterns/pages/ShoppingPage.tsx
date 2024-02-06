@@ -1,6 +1,6 @@
 import ProductCard, { ProductButtons, ProductImage, ProductTitle } from '../components';
 
-
+import '../styles/custom-styles.css';
 
 const product = {
     id: '1',
@@ -28,9 +28,12 @@ export const ShoppingPage = () => {
                 </ProductCard>
                 
                 {/* HOCs */}
-                <ProductCard product={product}>
-                    <ProductImage />
-                    <ProductTitle />
+                <ProductCard 
+                    product={product}
+                    className='bg-dark'
+                >
+                    <ProductImage className='custom-image'/>
+                    <ProductTitle className='text-white text-bold'/>
                     <ProductButtons add={{label: '+', value: 1}} minus={{label: '-', value: -1}} />
                 </ProductCard>
             </div>
