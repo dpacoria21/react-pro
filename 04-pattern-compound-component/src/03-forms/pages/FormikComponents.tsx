@@ -7,12 +7,16 @@ interface FormValues {
     firstName: string,
     lastName: string,
     email: string,
+    jobType: string,
+    terms: boolean,
 }
 
 const formInit: FormValues = {
     firstName: '',
     lastName: '',
-    email: ''
+    email: '',
+    jobType: '',
+    terms: false,
 };
 
 export const FormikComponents = () => {
@@ -37,6 +41,11 @@ export const FormikComponents = () => {
                         email: Yup.string()
                             .required('Requerido')
                             .email('Debe ser un email valido'),
+                        terms: Yup.boolean()
+                            .isTrue('Debe aceptar los terminos y condiciones'),
+                        jobType: Yup.string()
+                            .required('Requerido')
+                            .notOneOf(['it-junior'], 'Esta opcion no es permitida')
                     })
                 }
             >
@@ -55,6 +64,23 @@ export const FormikComponents = () => {
                             <label htmlFor="email">Email Address</label>
                             <Field name='email' type='text'/>
                             <ErrorMessage name='email' component={'span'}/>
+                            
+                            <label htmlFor="jobType">jobType</label>
+                            <Field name='jobType' as='select'>
+                                <option value=''>Pick something</option>
+                                <option value='front-end'>Front End Developer</option>
+                                <option value='back-end'>Back End Developer</option>
+                                <option value='designer'>Designer</option>
+                                <option value='it-junior'>IT junior</option>
+                            </Field>
+                            <ErrorMessage name='jobType' component={'span'}/>
+
+                            <label>
+                                <Field name='terms' type='checkbox'/>
+                                terms Address
+                            </label>
+                            <ErrorMessage name='terms' component={'span'}/>
+
 
                             <button type="submit">Submit</button>
                         </Form>
