@@ -27,7 +27,6 @@ for(const iterator of formJSON) {
         if(rule.type ==='email') {
             schema = schema.email('Email tiene que ser valido');
         }
-        // Agregar mas validaciones
 
     }
 
