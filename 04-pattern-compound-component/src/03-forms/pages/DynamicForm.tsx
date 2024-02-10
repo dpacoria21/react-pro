@@ -1,6 +1,6 @@
 import {Formik, Form} from 'formik';
 import formJSON from '../data/custom-form.json';
-import { MyTextInput } from '../components';
+import { MySelect, MyTextInput } from '../components';
 
 const initialValues: {[key: string]: string} = {};
 
@@ -22,8 +22,25 @@ export const DynamicForm = () => {
                 {
                     (formik) => (
                         <Form>
-                            {formJSON.map(({type, name, placeholder, label}) => {
-                                return <MyTextInput key={name} type={(type as unknown)} name={name} placeholder={placeholder} label={label}/>;
+                            {formJSON.map(({type, name, placeholder, label, options}) => {
+                                if(type==='text' || type==='password' || type==='email') {
+                                    return <MyTextInput key={name} type={type} name={name} placeholder={placeholder} label={label}/>;
+                                }else if(type==='select') {
+                                    return (
+                                        <MySelect 
+                                            key={name}
+                                            label={label}
+                                            name={name}
+                                        >
+                                            <option value=''>Select an option</option>
+                                            {
+                                                options?.map(({id, label}) => (
+                                                    <option key={id} value={id}>{label}</option>
+                                                ))
+                                            }
+                                        </MySelect>
+                                    );
+                                }
                             })}
                             <button type='submit'>Submit</button>
                             <span>Hola Mundo</span>
