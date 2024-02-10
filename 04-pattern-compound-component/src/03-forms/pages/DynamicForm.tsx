@@ -19,6 +19,16 @@ for(const iterator of formJSON) {
         if(rule.type === 'required') {
             schema = schema.required('Este campo es requerido');
         }
+
+        if(rule.type === 'minLength') {
+            schema = schema.min(rule.value || 2, `Minimo de caracteres es ${rule.value || 2}`);
+        }
+
+        if(rule.type ==='email') {
+            schema = schema.email('Email tiene que ser valido');
+        }
+        // Agregar mas validaciones
+
     }
 
     requiredFields[iterator.name] = schema;
